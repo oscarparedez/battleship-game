@@ -12,7 +12,7 @@ const App = () => {
         <Route path="/" element={<HomeScreen />} />
         <Route path="/lobby" element={<LobbyScreen />} />
         <Route path="/game" element={<GameScreen />} />
-        <Route path="/eng-game" element={<EndGameScreen />} />
+        <Route path="/end-game" element={<EndGameScreen />} />
       </Routes>
     </div>
   );

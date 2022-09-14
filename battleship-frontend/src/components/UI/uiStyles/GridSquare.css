@@ -1,0 +1,14 @@
+.GridSquare {
+  width: 40px;
+  height: 40px;
+  background-color: gray;
+  display: block;
+  border: 2px solid black;
+}
+.GridBoat {
+  width: 40px;
+  height: 40px;
+  background-color: red;
+  display: block;
+  border: 2px solid black;
+}

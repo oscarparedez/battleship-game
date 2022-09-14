@@ -1,0 +1,7 @@
+.GridRow {
+    width: 400px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+
+  }

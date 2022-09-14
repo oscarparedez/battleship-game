@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
+import Grid from "../UI/molecules/Grid";
+import OptionsMenu from "../UI/organisms/OptionsMenu";
 
 const HomeScreen = () => {
   return (
     <div>
-        <h1>HomeScreen</h1>
-        <Link to={"/about"}>About</Link>
+        <OptionsMenu />
+        {/* <Link to={"/about"}>About</Link> */}
+        <Grid />
     </div>
   );
 }
