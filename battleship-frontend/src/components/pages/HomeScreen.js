@@ -16,7 +16,7 @@ const HomeScreen = () => {
 
         {startGame && (
           <div className="GridsOfPlayers">
-            <Grid boatsLengths={[4, 3, 3, 2, 2]} title="Player One" getCell={null} selfDashboard={true} />
+            <Grid boatsLengths={[4, 3, 3, 2, 2]} title="Player One" getCell={() => {}} selfDashboard={true} />
             <Grid boatsLengths={[]} title="Player Two" getCell={getSelectedCell} selfDashboard={false} />
             <Grid boatsLengths={[]} title="Player Three"  getCell={getSelectedCell} selfDashboard={false}/>
           </div>
