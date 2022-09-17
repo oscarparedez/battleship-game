@@ -6,7 +6,7 @@ const ButtonOption = (props) => {
   return (
     <div>
         <Title title={props.title} />
-        <Button title={props.buttonTitle} />
+        <Button title={props.buttonTitle} renderGrid={props.renderGrid} />
     </div>
   );
 }

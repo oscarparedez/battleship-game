@@ -2,9 +2,14 @@ import React from "react";
 import '../uiStyles/GridSquare.css'
 
 const GridSquare = (props) => {
-  console.log("PROPS IS BOAT", props.isBoat)
+  // console.log("PROPS IS BOAT", props.isBoat, props.positionInGrid)
+
+  const getPositionValue = () => {
+    return props.getPositionOnGrid(props.positionInGrid)
+  }
+  
   return (
-    <div className={props.isBoat === true ? "GridBoat" : "GridSquare"}>
+    <div className={props.isBoat === true ? "GridBoat" : "GridSquare"} onClick={getPositionValue} >
     </div>
   );
 }

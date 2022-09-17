@@ -3,7 +3,8 @@ import '../uiStyles/Grid.css'
 import GridSquare from "../atoms/GridSquare";
 
 const Grid = (props) => {
-
+    const boatsLengths = props.boatsLengths;
+    
     const [ grid, setGrid ] = useState([
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,7 +19,6 @@ const Grid = (props) => {
     ])
 
     useEffect(() => {
-        const boatsLengths = [4, 3, 3, 2, 2]
 
         for (let i = 0; i <= boatsLengths.length; i++) {
             let flag = generateBoat(boatsLengths[i])
@@ -71,13 +71,15 @@ const Grid = (props) => {
         return true
     }
     
-
     return (
         <div className="Grid">
-            { grid.map((row, index) => (
-                <div key={index} className="GridRow">
-                    {row.map((cell, index) => (
-                       <GridSquare key={index} isBoat={cell === 0 ? false : true} />
+            <div>
+                {props.title}
+            </div>
+            { grid.map((row, rindex) => (
+                <div key={rindex} className="GridRow">
+                    {row.map((cell, cindex) => (
+                       <GridSquare key={cindex} isBoat={cell === 0 ? false : true} positionInGrid={[rindex,cindex]} getPositionOnGrid={props.getCell} />
                     ))}
                 </div>
             )) }
