@@ -79,7 +79,12 @@ const Grid = (props) => {
             { grid.map((row, rindex) => (
                 <div key={rindex} className="GridRow">
                     {row.map((cell, cindex) => (
-                       <GridSquare key={cindex} isBoat={cell === 0 ? false : true} positionInGrid={[rindex,cindex]} getPositionOnGrid={props.getCell} />
+                       <GridSquare 
+                            key={cindex} isBoat={cell === 0 ? false : true} 
+                            positionInGrid={[rindex,cindex]} 
+                            getPositionOnGrid={props.getCell} 
+                            selfDashboard={props.selfDashboard}
+                        />
                     ))}
                 </div>
             )) }

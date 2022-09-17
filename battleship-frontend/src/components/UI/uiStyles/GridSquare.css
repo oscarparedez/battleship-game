@@ -16,3 +16,7 @@
 .GridSquare:hover {
   background-color: rgb(196, 196, 196);
 }
+
+.GridSquareClicked {
+  background-color: black;
+}

@@ -4,7 +4,12 @@ import '../uiStyles/GridSquare.css'
 const GridSquare = (props) => {
   // console.log("PROPS IS BOAT", props.isBoat, props.positionInGrid)
 
-  const getPositionValue = () => {
+  const getPositionValue = (event) => {
+
+    if(props.selfDashboard === false) {
+      event.currentTarget.classList.add('GridSquareClicked')
+    }
+
     return props.getPositionOnGrid(props.positionInGrid)
   }
   
