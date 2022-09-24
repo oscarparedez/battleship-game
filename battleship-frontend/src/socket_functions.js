@@ -14,8 +14,8 @@ export const createConnection = (socket, setter) => {
       });
 }
 
-export const joinRoom = (room_id) => {
-    global_socket.emit("join_room", room_id, (data) => {
+export const joinRoom = (room_id, grid) => {
+    global_socket.emit("join_room", room_id, grid, (data) => {
         console.log("data", data)
     })
 }
