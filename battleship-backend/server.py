@@ -1,5 +1,6 @@
 from aiohttp import web
 import socketio
+import time
 
 sio = socketio.AsyncServer(cors_allowed_origins='*')
 app = web.Application()
@@ -26,6 +27,7 @@ async def join_room(sid, group, grid):
         rooms[group]["users"].append({"id":sid, "grid": grid, "lose": False, "hits":0})
         sio.enter_room(sid, group)
         await sio.emit('room_message', {"data": {"action":"room_ready", "body": {"users":[{"id": user["id"]} for user in rooms[group]["users"]]}}}, room=group)
+        time.sleep(1)
         await sio.emit('room_message', {"data": {"action":"turn", "body": {"id": rooms[group]["users"][0]["id"]}}}, room=group)
     elif room_len == 3:
         await sio.emit('room_message', {"data": {"action":"room_error", "body":"Room already full"}}, room=sid)
