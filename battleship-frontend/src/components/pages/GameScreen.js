@@ -63,6 +63,10 @@ const GameScreen = (props) => {
     }
   }, [user])
 
+  useEffect(() => {
+    if (turn === id) setTurnFinished(false)
+  }, [turn])
+
   const changeTurn = () => {
     setAttacksCounter(0)
     setTurnFinished(true)
@@ -118,7 +122,7 @@ const GameScreen = (props) => {
             }
           }
 
-          console.log((playersInfo.indexOf(element) === blockedGrid), turnFinished, (turn !== userPosition), turn, userPosition)
+          console.log((playersInfo.indexOf(element) === blockedGrid), turnFinished, (turn !== id), turn, userPosition)
 
           return (
             <div className={
