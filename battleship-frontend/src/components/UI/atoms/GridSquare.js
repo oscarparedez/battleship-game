@@ -1,20 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import '../uiStyles/GridSquare.css'
 
 const GridSquare = (props) => {
-  // console.log("PROPS IS BOAT", props.isBoat, props.positionInGrid)
+  const [squareClicked, setSquareClicked] = useState(false)
 
-  const getPositionValue = (event) => {
-
-    if(props.selfDashboard === false) {
-      event.currentTarget.classList.add('GridSquareClicked')
+  const squareClick = () => {
+    if (!squareClicked) {
+      props.onCellClick(props.positionInGrid)
+      setSquareClicked(true)    
     }
-
-    return props.getPositionOnGrid(props.positionInGrid)
   }
   
   return (
-    <div className={props.isBoat === true ? "GridBoat" : "GridSquare"} onClick={getPositionValue} >
+    <div
+      className={
+        [props.isBoat === true ? "GridBoat" : "GridSquare", 
+        (squareClicked && !props.selfDashboard) ? 'GridSquareClicked' : ''].join(' ')
+      } 
+      onClick={() => squareClick()}>
     </div>
   );
 }

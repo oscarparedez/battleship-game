@@ -19,4 +19,5 @@
 
 .GridSquareClicked {
   background-color: black;
+  pointer-events: none;
 }

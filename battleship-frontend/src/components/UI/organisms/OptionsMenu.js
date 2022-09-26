@@ -4,7 +4,7 @@ import ButtonOption from "../molecules/ButtonOption";
 const OptionsMenu = (props) => {
   return (
     <div>
-        <ButtonOption title={'Create Game'} buttonTitle={'Create Game'}  renderGrid={props.renderGridOponent} />
+        <ButtonOption title={'Create Game'} buttonTitle={'Create Game'} room={props.room} />
     </div>
   );
 }

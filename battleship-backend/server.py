@@ -27,7 +27,7 @@ async def join_room(sid, group, grid):
         rooms[group]["users"].append({"id":sid, "grid": grid, "lose": False, "hits":0})
         sio.enter_room(sid, group)
         await sio.emit('room_message', {"data": {"action":"room_ready", "body": {"users":[{"id": user["id"]} for user in rooms[group]["users"]]}}}, room=group)
-        time.sleep(1)
+        time.sleep(2)
         await sio.emit('room_message', {"data": {"action":"turn", "body": {"id": rooms[group]["users"][0]["id"]}}}, room=group)
     elif room_len == 3:
         await sio.emit('room_message', {"data": {"action":"room_error", "body":"Room already full"}}, room=sid)
@@ -44,6 +44,9 @@ async def room_message(sid, data, group):
 @sio.event
 async def attack(sid, group, positionX, positionY, playerAttacked):
     response = None
+    print(sid, group, positionX, positionY, playerAttacked)
+    print(rooms[group]["users"])
+    print(rooms[group]["users"][playerAttacked]["grid"])
     if rooms[group]["users"][playerAttacked]["grid"][positionX][positionY] == 1:
         rooms[group]["users"][playerAttacked]["grid"][positionX][positionY] = 2
         response = {"data": {"action":"attack", "body": {"position_x": positionX, "position_y": positionY, "hit": True}}}

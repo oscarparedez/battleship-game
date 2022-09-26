@@ -3,6 +3,7 @@ import '../uiStyles/Grid.css'
 import GridSquare from "../atoms/GridSquare";
 
 const Grid = (props) => {
+
     const boatsLengths = props.boatsLengths;
     
     const [ grid, setGrid ] = useState([
@@ -20,15 +21,22 @@ const Grid = (props) => {
 
     useEffect(() => {
 
-        for (let i = 0; i <= boatsLengths.length; i++) {
-            let flag = generateBoat(boatsLengths[i])
-            while (!flag) {
-                flag = generateBoat(boatsLengths[i])
-            } 
+        if (props.generatedGrid) {
+            setGrid(props.generatedGrid)
+        } else {
+            for (let i = 0; i <= boatsLengths.length; i++) {
+                let flag = generateBoat(boatsLengths[i])
+                while (!flag) {
+                    flag = generateBoat(boatsLengths[i])
+                } 
+            }
+            if (props.onGridRendered) {
+                props.onGridRendered(grid)
+            }
         }
 
-
     }, [])
+
 
     const randomIntFromInterval = (min, max) => {
         return Math.floor(Math.random() * (max - min + 1) + min)
@@ -74,16 +82,16 @@ const Grid = (props) => {
     return (
         <div className="Grid">
             <div>
-                {props.title}
+                {props.title} --- {props.gridPosition}
             </div>
             { grid.map((row, rindex) => (
                 <div key={rindex} className="GridRow">
                     {row.map((cell, cindex) => (
-                       <GridSquare 
-                            key={cindex} isBoat={cell === 0 ? false : true} 
-                            positionInGrid={[rindex,cindex]} 
-                            getPositionOnGrid={props.getCell} 
+                       <GridSquare
+                            key={cindex} isBoat={cell === 0 ? false : true}
+                            positionInGrid={[rindex,cindex]}
                             selfDashboard={props.selfDashboard}
+                            onCellClick={props.onCellClick}
                         />
                     ))}
                 </div>
