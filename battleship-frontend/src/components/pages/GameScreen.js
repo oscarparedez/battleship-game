@@ -4,7 +4,8 @@ import Grid from "../UI/molecules/Grid";
 import { useUserInfo } from '../../customHooks/user-info'
 import { userId } from "../../socket_functions";
 import '../UI/uiStyles/GameScreen.css'
-import { attack } from "../../socket_functions";
+import { attack, room_message } from "../../socket_functions";
+import Button from "../UI/atoms/Button";
 
 const PLAYER0 = [1, 2]
 const PLAYER1 = [0, 2]
@@ -25,6 +26,7 @@ const GameScreen = (props) => {
   const [ attacksCounter, setAttacksCounter ] = useState(0)
 
   const [ turnFinished, setTurnFinished ] = useState(false)
+  const [ messageToSend, setMessageToSend ] = useState('')
 
   const [ attackedInfo, setAttackedInfo ] = useState()
 
@@ -59,6 +61,9 @@ const GameScreen = (props) => {
           console.log('game screen', user.data.body)
           setAttackedInfo(user.data.body)
           break;
+        case "room_message":
+          appendMessageToField(user.data.body)
+          break;
         default:
           console.log("ACCION", user.data)
           break;
@@ -80,73 +85,115 @@ const GameScreen = (props) => {
     attack(room, data[1], data[0], playersInfo[userAttacks] && playersInfo[userAttacks].id)
   }
 
+  const handleMessageSend = (event) => {
+    setMessageToSend(event.target.value);
+  };
+  
+  const onSendMessage = () => {
+    let messageBody = {"data": { "action":"room_message", "body":{messageToSend, id} }}
+    appendMessageToField({messageToSend, id})
+    room_message(messageBody, room)
+  }
+
+  const appendMessageToField = (body) => {
+
+    const unMensaje = document.createElement('p')
+
+    const text = document.createTextNode(body.id + ": " + body.messageToSend);
+    unMensaje.appendChild(text);
+
+    const containerMsg = document.getElementById("containerMesssages")
+    containerMsg.appendChild(unMensaje)
+    containerMsg.scrollTo(0, containerMsg.scrollHeight)
+
+  }
+
   let gridCounter = 0
   return (
     <div>
       <h2>Game Screen</h2>
-      {playersInfo.map((element) => {
-        gridCounter += 1
-        if (element.id === myUser.id) {
-          return (
-            <div className="OwnGrid">
-              <Grid 
-                key={element.id} 
-                userGridId={element.id} 
-                gridPosition={gridCounter} 
-                generatedGrid={grid} 
-                title={"Player " + userPosition + element.id + " (You)"} 
-                getCell={() => {}}
-                selfDashboard={true}
-                attackedInfo={attackedInfo}
-              />
-            </div>
-          )
-        } else {
-          let blockedGrid = 0
-          if (userPosition === 0) {
-            if (userAttacks === 1) {
-              blockedGrid = 2
+      <div className="GridContainer">
+        {playersInfo.map((element) => {
+          gridCounter += 1
+          if (element.id === myUser.id) {
+            return (
+              <div className="OwnGrid">
+                <Grid 
+                  key={element.id} 
+                  userGridId={element.id} 
+                  gridPosition={gridCounter} 
+                  generatedGrid={grid} 
+                  title={"Player " + userPosition + element.id + " (You)"} 
+                  getCell={() => {}}
+                  selfDashboard={true}
+                  attackedInfo={attackedInfo}
+                />
+              </div>
+            )
+          } else {
+            let blockedGrid = 0
+            if (userPosition === 0) {
+              if (userAttacks === 1) {
+                blockedGrid = 2
+              }
+              else if (userAttacks === 2) {
+                blockedGrid = 1
+              }
             }
-            else if (userAttacks === 2) {
-              blockedGrid = 1
+            else if (userPosition === 1) {
+              if (userAttacks === 0) {
+                blockedGrid = 2
+              }
+              else if (userAttacks === 2) {
+                blockedGrid = 0
+              }
             }
-          }
-          else if (userPosition === 1) {
-            if (userAttacks === 0) {
-              blockedGrid = 2
+            else if (userPosition === 2) {
+              if (userAttacks === 0) {
+                blockedGrid = 1
+              }
+              else if (userAttacks === 1) {
+                blockedGrid = 0
+              }
             }
-            else if (userAttacks === 2) {
-              blockedGrid = 0
-            }
-          }
-          else if (userPosition === 2) {
-            if (userAttacks === 0) {
-              blockedGrid = 1
-            }
-            else if (userAttacks === 1) {
-              blockedGrid = 0
-            }
-          }
 
-          return (
-            <div className={
-              (playersInfo.indexOf(element) === blockedGrid) ||
-              (turnFinished) ||
-              (turn !== id) ? "blockedGrid" : ""
-            }>
-            <Grid 
-              key={element.id}
-              userGridId={element.id} 
-              gridPosition={gridCounter}
-              boatsLengths={[]}
-              title={"Player " + element.id}
-              onCellClick={onCellClick}
-              selfDashboard={false}
-              attackedInfo={attackedInfo} />
-            </div>
-          )   
-        }
-      })}
+            return (
+              <div className={
+                (playersInfo.indexOf(element) === blockedGrid) ||
+                (turnFinished) ||
+                (turn !== id) ? "blockedGrid" : ""
+              }>
+              <Grid 
+                key={element.id}
+                userGridId={element.id} 
+                gridPosition={gridCounter}
+                boatsLengths={[]}
+                title={"Player " + element.id}
+                onCellClick={onCellClick}
+                selfDashboard={false}
+                attackedInfo={attackedInfo} />
+              </div>
+            )   
+          }
+        })}
+
+      </div>
+      <div className="chatBackground">
+        Chat
+        <div id="containerMesssages" className="backgroundMesssages"/>
+        <div className="inputContainer">
+          <Button renderGrid={onSendMessage} title={"Send"} />
+          <input 
+            id="message" 
+            type="text" 
+            name="message"
+            className="chatField"
+            placeholder="Send a message..."
+            onChange={handleMessageSend}
+            value={messageToSend}
+          />
+        </div>
+      </div>
     </div>
   );
 }

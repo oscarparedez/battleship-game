@@ -29,3 +29,11 @@ export const attack = (room_id, position_x, position_y, playerAttacked) => {
         console.log(" ")
     })
 }
+
+export const chat_message = (room_id, msg) => {
+    global_socket.emit("chat_message", room_id, msg)
+}
+
+export const room_message = (data, group) => {
+    global_socket.emit("room_message", data, group)
+}

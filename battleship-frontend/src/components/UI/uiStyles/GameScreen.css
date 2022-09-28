@@ -4,3 +4,29 @@
 .OwnGrid {
     pointer-events: none;
 }
+.GridContainer {
+    display: flex;
+    justify-content: space-around;
+}
+.chatBackground {
+    width: auto;
+    height: 31vh;
+    margin-top: 2vh;
+    border: 2px solid;
+    background-color: bisque;
+}
+.inputContainer {
+    display: flex;
+    position: fixed;
+    bottom: 6px;
+    width: 100%;
+}
+.chatField {
+    width: 95%;
+    height: 2vh;
+}
+.backgroundMesssages {
+    height: 27vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
