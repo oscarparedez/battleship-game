@@ -5,7 +5,7 @@ import socketio
 import time
 import asyncio
 
-sio = socketio.AsyncServer(cors_allowed_origins="*")
+sio = socketio.AsyncServer(cors_allowed_origins='*')
 app = web.Application()
 sio.attach(app)
 
