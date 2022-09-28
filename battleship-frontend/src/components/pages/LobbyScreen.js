@@ -9,12 +9,18 @@ const LobbyScreen = (props) => {
   const location = useLocation()
   const navigate = useNavigate()
   const { room } = location.state
-  const [startGame, setStartGame] = useState()
   const [ grid, setGrid ] = useState([])
-  const { user, setUser, playersInfo, setPlayersInfo } = useUserInfo()
+  const { user, setUser, setPlayersInfo } = useUserInfo()
 
   const join_room = (roomID, grid) => {
     joinRoom(roomID, grid)
+  }
+
+  const onGridRendered = (grid) => {
+    setGrid(grid)
+    const socket = io("https://floating-coast-52950.herokuapp.com:5000");
+    createConnection(socket, setUser)
+    join_room(room, grid)
   }
 
   useEffect(() => {
@@ -40,21 +46,12 @@ const LobbyScreen = (props) => {
     }
   }, [user])
 
-  const onGridRendered = (grid) => {
-    setGrid(grid)
-    const socket = io("https://floating-coast-52950.herokuapp.com:5000");
-    createConnection(socket, setUser)
-    join_room(room, grid)
-  }
-
   return (
     <div>
       <h1>Waiting for other players...</h1>
       <div className="GridsOfPlayers">
           <h4>This will be your grid</h4>
-          <Grid onGridRendered={onGridRendered} boatsLengths={[4, 3, 3, 2, 2]} title="Player One" getCell={() => {}} selfDashboard={true} />
-          {/* <Grid boatsLengths={[]} title="Player Two" getCell={getSelectedCell} selfDashboard={false} />
-          <Grid boatsLengths={[]} title="Player Three"  getCell={getSelectedCell} selfDashboard={false}/> */}
+          <Grid onGridRendered={onGridRendered} boatsLengths={[4, 3, 3, 2, 2]} getCell={() => {}} selfDashboard={true} />
         </div>
     </div>
   );
