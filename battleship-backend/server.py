@@ -3,6 +3,7 @@ from aiohttp import web
 import aiohttp_cors
 import socketio
 import time
+import asyncio
 
 sio = socketio.AsyncServer(cors_allowed_origins='*')
 app = web.Application()
@@ -81,15 +82,34 @@ async def chat_message(sid, data):
 def disconnect(sid):
     print('disconnect ', sid)
 
-if __name__ == '__main__':
-    resource = cors.add(app.router.add_resource("/"))
-    route = cors.add(
+@asyncio.coroutine
+def handler(request):
+    return web.Response(
+        text="Hello!",
+        headers={
+            "X-Custom-Server-Header": "Custom data",
+        })
+
+app = web.Application()
+
+# `aiohttp_cors.setup` returns `aiohttp_cors.CorsConfig` instance.
+# The `cors` instance will store CORS configuration for the
+# application.
+cors = aiohttp_cors.setup(app)
+
+# To enable CORS processing for specific route you need to add
+# that route to the CORS configuration object and specify its
+# CORS options.
+resource = cors.add(app.router.add_resource("/hello"))
+route = cors.add(
     resource.add_route("GET", handler), {
-        "http://client.example.org": aiohttp_cors.ResourceOptions(
+        "*": aiohttp_cors.ResourceOptions(
             allow_credentials=True,
             expose_headers=("X-Custom-Server-Header",),
             allow_headers=("X-Requested-With", "Content-Type"),
             max_age=3600,
         )
     })
+
+if __name__ == '__main__':
     web.run_app(app, port=os.getenv('PORT'))
