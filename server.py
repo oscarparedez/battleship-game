@@ -13,9 +13,9 @@ async def index(request):
 
 rooms = {}
 
-@sio.on('connect')
-def connect(sid, environ):
-    print("connect ", sid)
+# @sio.on('connect')
+# def connect(sid, environ):
+#     print("connect ", sid)
 
 @sio.on('join_room')
 async def join_room(sid, group, grid):
