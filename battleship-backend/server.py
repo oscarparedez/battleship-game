@@ -72,7 +72,6 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
         await sio.emit('room_message', response, room=group)
         
         
-
 @sio.event
 async def chat_message(sid, data):
     print("message ", data)
@@ -82,13 +81,5 @@ async def chat_message(sid, data):
 def disconnect(sid):
     print('disconnect ', sid)
 
-@asyncio.coroutine
-def handler(request):
-    return web.Response(
-        text="Hello!",
-        headers={
-            "X-Custom-Server-Header": "Custom data",
-        })
-
 if __name__ == '__main__':
-    web.run_app(app)
+    web.run_app(app, port=5001)
