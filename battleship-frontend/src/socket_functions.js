@@ -4,7 +4,6 @@ export const createConnection = (socket, setter, username) => {
     global_socket = socket
     socket.on("connect", () => {
         socket.on("room_message", (data) => {
-            // console.log("oka", data)
             setter(data)
         });
       

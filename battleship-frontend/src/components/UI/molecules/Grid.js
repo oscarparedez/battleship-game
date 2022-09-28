@@ -4,7 +4,7 @@ import GridSquare from "../atoms/GridSquare";
 
 const Grid = (props) => {
 
-    const boatsLengths = props.boatsLengths;
+    const { boatsLengths, userGridId, attackedInfo, stateGrid } = props
     
     const [ grid, setGrid ] = useState([
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -18,12 +18,9 @@ const Grid = (props) => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ])
-    
-    const { userGridId, attackedInfo, stateGrid } = props
 
     useEffect(() => {
         if (attackedInfo) {
-            console.log("test", attackedInfo)
             if (userGridId === attackedInfo.userid) {
                 const tempGrid = [...grid]
                 if (attackedInfo.hit) {
@@ -41,10 +38,10 @@ const Grid = (props) => {
         if (props.generatedGrid) {
             setGrid(props.generatedGrid)
         } else {
-            for (let i = 0; i <= boatsLengths.length; i++) {
-                let flag = generateBoat(boatsLengths[i])
+            for (const boatLength of boatsLengths) {
+                let flag = generateBoat(boatLength)
                 while (!flag) {
-                    flag = generateBoat(boatsLengths[i])
+                    flag = generateBoat(boatLength)
                 } 
             }
             if (props.onGridRendered) {
@@ -69,7 +66,7 @@ const Grid = (props) => {
         if (grid[yCord][xCord] === 0) {
             if (boatPosition === 0) {
                 for (let i = 0; i < boatLength; i++) {
-                    if (grid[yCord][xCord + i] !== 0) {
+                    if ((xCord + i) >= 10 || grid[yCord][xCord + i] !== 0) {
                         return false
                     }
                 }
@@ -92,6 +89,8 @@ const Grid = (props) => {
                     setGrid(tempGrid)
                 }                
             }
+        } else {
+            return false
         }
         return true
     }
@@ -110,6 +109,7 @@ const Grid = (props) => {
                             positionInGrid={[rindex,cindex]}
                             selfDashboard={props.selfDashboard}
                             onCellClick={props.onCellClick}
+                            isLobbyScreen={props.isLobbyScreen}
                         />
                     ))}
                 </div>

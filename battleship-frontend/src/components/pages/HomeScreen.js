@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import OptionsMenu from "../UI/organisms/OptionsMenu";
 import '../UI/uiStyles/HomeScreen.css'
 import { useUserInfo } from '../../customHooks/user-info'

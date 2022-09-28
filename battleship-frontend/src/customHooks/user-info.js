@@ -1,11 +1,11 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState } from 'react'
 
 const UserContext = React.createContext()
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null)
   const [ playersInfo, setPlayersInfo ] = useState()
-  const [ room, setRoom ] = useState()
+  const [ room, setRoom ] = useState("")
 
   return (
     <UserContext.Provider value={{ user, setUser, playersInfo, setPlayersInfo, room, setRoom }}>

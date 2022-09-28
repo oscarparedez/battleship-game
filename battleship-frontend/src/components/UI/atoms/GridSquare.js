@@ -6,7 +6,7 @@ const GridSquare = (props) => {
   const [squareClicked, setSquareClicked] = useState(false)
 
   const squareClick = () => {
-    if (!squareClicked) {
+    if (!squareClicked && !props.isLobbyScreen) {
       props.onCellClick(props.positionInGrid)
       setSquareClicked(true)    
     }

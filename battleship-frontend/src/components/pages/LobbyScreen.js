@@ -33,14 +33,12 @@ const LobbyScreen = (props) => {
             navigate("/game", { state: {grid: grid}})
           break;
         case "room_error":
-          console.log("HERE")
-            // console.log("ACCION", user.data.body)
+          console.log("ROOM ERROR", user.data)
           break;
         case "turn":
           console.log("TURNO", user.data)
           break;
         default:
-            // console.log("HERE1")
             console.log("ACCION", user.data)
           break;
       }
@@ -52,7 +50,7 @@ const LobbyScreen = (props) => {
       <h1>Waiting for other players...</h1>
       <div className="GridsOfPlayers">
           <h4>This will be your grid</h4>
-          <Grid onGridRendered={onGridRendered} boatsLengths={[4, 3, 3, 2, 2]} getCell={() => {}} selfDashboard={true} />
+          <Grid onGridRendered={onGridRendered} boatsLengths={[4, 3, 3, 2, 2]} getCell={() => {}} selfDashboard={true} isLobbyScreen={true} />
         </div>
     </div>
   );
