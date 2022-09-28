@@ -1,1 +1,1 @@
-web: python battleship-backend/server.py
+web: python server.py
