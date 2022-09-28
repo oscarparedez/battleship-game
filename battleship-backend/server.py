@@ -1,4 +1,3 @@
-from operator import index
 from aiohttp import web
 import socketio
 import time
@@ -48,11 +47,11 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
     positionX, positionY = positionY, positionX
     if rooms[group]["users"][playerAttacked]["grid"][positionX][positionY] == 1:
         rooms[group]["users"][playerAttacked]["grid"][positionX][positionY] = 2
-        response = {"data": {"action":"attack", "body": {"position_x": positionX, "position_y": positionY, "hit": True}}}
+        response = {"data": {"action":"attack", "body": {"userid": playerAttacked, "position_x": positionX, "position_y": positionY, "hit": True}}}
         rooms[group]["users"][playerAttacked]["hits"] = rooms[group]["users"][playerAttacked]["hits"] + 1
     else:
         rooms[group]["users"][playerAttacked]["grid"][positionX][positionY] = 3
-        response = {"data": {"action":"attack", "body": {"position_x": positionX, "position_y": positionY, "hit": False}}}
+        response = {"data": {"action":"attack", "body": {"userid": playerAttacked, "position_x": positionX, "position_y": positionY, "hit": False}}}
     await sio.emit('room_message', response, room=group)
     if rooms[group]["users"][playerAttacked]["hits"] == 14:
         rooms[group]["users"][playerAttacked]["lose"] = True
@@ -66,6 +65,7 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
         if rooms[group]["turn"] % len(nextUsers) == 0:
             rooms[group]["turn"] = 0
         response = {"data": {"action":"turn", "body": {"id": nextUsers[rooms[group]["turn"]]}}}
+        time.sleep(0.5)
         await sio.emit('room_message', response, room=group)
         
         
