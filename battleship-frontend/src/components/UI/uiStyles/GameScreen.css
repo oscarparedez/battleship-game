@@ -4,6 +4,12 @@
 .OwnGrid {
     pointer-events: none;
 }
+.titlesContainer {
+    display: flex;
+}
+h2 {
+    flex: 1;
+}
 .GridContainer {
     display: flex;
     justify-content: space-around;

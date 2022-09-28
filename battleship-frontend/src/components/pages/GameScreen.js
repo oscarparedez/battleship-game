@@ -29,6 +29,9 @@ const GameScreen = (props) => {
   const [ messageToSend, setMessageToSend ] = useState('')
 
   const [ attackedInfo, setAttackedInfo ] = useState()
+  const [ countPoints, setCountPoints ] = useState(0)
+  const [ loseState, setLoseState ] = useState(false)
+
 
   useEffect(() => {
     if (userPosition === 0 && attacksCounter === 0) {
@@ -58,8 +61,18 @@ const GameScreen = (props) => {
           setTurn(user.data.body.id)
           break;
         case "attack":
-          console.log('game screen', user.data.body)
+          const attack = user.data.body
+
+          if (attack.hit && turn === id) {
+            setCountPoints(countPoints + 1)
+          }
+
           setAttackedInfo(user.data.body)
+          break;
+        case "lose":
+          if (user.data.body.id === id) {
+            setLoseState(true)
+          }
           break;
         case "room_message":
           appendMessageToField(user.data.body)
@@ -111,7 +124,11 @@ const GameScreen = (props) => {
   let gridCounter = 0
   return (
     <div>
-      <h2>Game Screen</h2>
+      <div className="titlesContainer">
+        <h2> Your Score {countPoints} </h2>
+        <h2> Game Screen </h2>
+        <h2> Battle Ship </h2>
+      </div>
       <div className="GridContainer">
         {playersInfo.map((element) => {
           gridCounter += 1
@@ -127,6 +144,7 @@ const GameScreen = (props) => {
                   getCell={() => {}}
                   selfDashboard={true}
                   attackedInfo={attackedInfo}
+                  stateGrid={loseState}
                 />
               </div>
             )
@@ -171,6 +189,7 @@ const GameScreen = (props) => {
                 title={"Player " + element.id}
                 onCellClick={onCellClick}
                 selfDashboard={false}
+                stateGrid={loseState}
                 attackedInfo={attackedInfo} />
               </div>
             )   

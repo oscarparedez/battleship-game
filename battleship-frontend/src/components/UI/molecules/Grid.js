@@ -19,7 +19,7 @@ const Grid = (props) => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ])
     
-    const { userGridId, attackedInfo } = props
+    const { userGridId, attackedInfo, stateGrid } = props
 
     useEffect(() => {
         if (attackedInfo) {
@@ -97,7 +97,7 @@ const Grid = (props) => {
     }
     
     return (
-        <div className="Grid">
+        <div className={stateGrid ? "GridBlocked" : "Grid"}>
             <div>
                 {props.title} --- {props.gridPosition}
             </div>

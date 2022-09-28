@@ -5,3 +5,6 @@
     flex-direction: row;
 
   }
+.GridBlocked {
+  opacity: 0.1;
+}
