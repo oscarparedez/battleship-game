@@ -18,7 +18,7 @@ const LobbyScreen = (props) => {
 
   const onGridRendered = (grid) => {
     setGrid(grid)
-    const socket = io("https://floating-coast-52950.herokuapp.com:5000");
+    const socket = io("https://floating-coast-52950.herokuapp.com/");
     createConnection(socket, setUser)
     join_room(room, grid)
   }
