@@ -16,7 +16,7 @@ const HomeScreen = () => {
   }
 
   useEffect(() => {
-    const socket = io("http://localhost:8080");
+    const socket = io("https://floating-coast-52950.herokuapp.com:8080");
     createConnection(socket, setUser)
   }, [])
 
