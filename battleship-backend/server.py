@@ -1,5 +1,6 @@
 import os
 from aiohttp import web
+import aiohttp_cors
 import socketio
 import time
 
@@ -81,4 +82,14 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 if __name__ == '__main__':
+    resource = cors.add(app.router.add_resource("/"))
+    route = cors.add(
+    resource.add_route("GET", handler), {
+        "http://client.example.org": aiohttp_cors.ResourceOptions(
+            allow_credentials=True,
+            expose_headers=("X-Custom-Server-Header",),
+            allow_headers=("X-Requested-With", "Content-Type"),
+            max_age=3600,
+        )
+    })
     web.run_app(app, port=os.getenv('PORT'))

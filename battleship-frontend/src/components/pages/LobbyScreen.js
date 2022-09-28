@@ -12,14 +12,6 @@ const LobbyScreen = (props) => {
   const [startGame, setStartGame] = useState()
   const [ grid, setGrid ] = useState([])
   const { user, setUser, playersInfo, setPlayersInfo } = useUserInfo()
-  const getSelectedCell = (data) => {
-    console.log('Selected key', data);
-  }
-
-  // useEffect(() => {
-  //   const socket = io("https://floating-coast-52950.herokuapp.com:8080");
-  //   createConnection(socket, setUser)
-  // }, [])
 
   const join_room = (roomID, grid) => {
     joinRoom(roomID, grid)
@@ -50,7 +42,7 @@ const LobbyScreen = (props) => {
 
   const onGridRendered = (grid) => {
     setGrid(grid)
-    const socket = io("https://floating-coast-52950.herokuapp.com:8080");
+    const socket = io("https://floating-coast-52950.herokuapp.com:5000");
     createConnection(socket, setUser)
     join_room(room, grid)
   }
