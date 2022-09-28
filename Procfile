@@ -1,1 +1,1 @@
-web: gunicorn battleship-backend/server.py
+web: python battleship-backend/server.py

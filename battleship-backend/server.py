@@ -1,3 +1,4 @@
+import os
 from aiohttp import web
 import socketio
 import time
@@ -80,4 +81,4 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 if __name__ == '__main__':
-    web.run_app(app)
+    web.run_app(app, port=os.getenv('PORT'))
