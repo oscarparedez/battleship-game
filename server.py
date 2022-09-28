@@ -32,7 +32,7 @@ async def join_room(sid, group, grid):
         rooms[group]["users"][sid] = {"id":sid, "grid": grid, "lose": False, "hits":0}
         sio.enter_room(sid, group)
         await sio.emit('room_message', {"data": {"action":"room_ready", "body": {"users":[{"id": user["id"]} for user in rooms[group]["users"].values()]}}}, room=group)
-        time.sleep(2)
+        time.sleep(5)
         await sio.emit('room_message', {"data": {"action":"turn", "body": {"id": list(rooms[group]["users"].values())[0]["id"]}}}, room=group)
     elif room_len == 3:
         await sio.emit('room_message', {"data": {"action":"room_error", "body":"Room already full"}}, room=sid)
