@@ -9,7 +9,8 @@ const ButtonOption = (props) => {
         <Link
           to={'/lobby'}
           state={{
-            room: props.room
+            room: props.room,
+            username: props.username
           }}
           onClick={props.renderGrid}>
             {props.buttonTitle}

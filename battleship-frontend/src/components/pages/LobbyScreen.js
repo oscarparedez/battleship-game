@@ -8,20 +8,20 @@ import { useUserInfo } from '../../customHooks/user-info'
 const LobbyScreen = (props) => {
   const location = useLocation()
   const navigate = useNavigate()
-  const { room } = location.state
+  const { room, username } = location.state
   const [ grid, setGrid ] = useState([])
   const { user, setUser, setPlayersInfo } = useUserInfo()
 
-  const join_room = (roomID, grid) => {
-    joinRoom(roomID, grid)
+  const join_room = (roomID, grid, username) => {
+    joinRoom(roomID, grid, username)
   }
 
   const onGridRendered = (grid) => {
     setGrid(grid)
     const socket = io("https://floating-coast-52950.herokuapp.com/");
-    // const socket = io("http://localhost:8080");
+    /* const socket = io("http://localhost:5005"); */
     createConnection(socket, setUser)
-    join_room(room, grid)
+    join_room(room, grid, username)
   }
 
   useEffect(() => {

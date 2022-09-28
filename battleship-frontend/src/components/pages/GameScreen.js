@@ -103,8 +103,8 @@ const GameScreen = (props) => {
   };
   
   const onSendMessage = () => {
-    let messageBody = {"data": { "action":"room_message", "body":{messageToSend, id} }}
-    appendMessageToField({messageToSend, id})
+    let messageBody = {"data": { "action":"room_message", "body":{messageToSend, "username": myUser.username} }}
+    appendMessageToField({messageToSend, "username": myUser.username})
     room_message(messageBody, room)
   }
 
@@ -112,7 +112,7 @@ const GameScreen = (props) => {
 
     const unMensaje = document.createElement('p')
 
-    const text = document.createTextNode(body.id + ": " + body.messageToSend);
+    const text = document.createTextNode(body.username + ": " + body.messageToSend);
     unMensaje.appendChild(text);
 
     const containerMsg = document.getElementById("containerMesssages")
@@ -140,7 +140,7 @@ const GameScreen = (props) => {
                   userGridId={element.id} 
                   gridPosition={gridCounter} 
                   generatedGrid={grid} 
-                  title={"Player " + userPosition + element.id + " (You)"} 
+                  title={"Player " + element.username + " (You)"} 
                   getCell={() => {}}
                   selfDashboard={true}
                   attackedInfo={attackedInfo}
@@ -186,7 +186,7 @@ const GameScreen = (props) => {
                 userGridId={element.id} 
                 gridPosition={gridCounter}
                 boatsLengths={[]}
-                title={"Player " + element.id}
+                title={"Player " + element.username}
                 onCellClick={onCellClick}
                 selfDashboard={false}
                 stateGrid={loseState}

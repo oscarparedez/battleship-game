@@ -14,7 +14,7 @@ def connect(sid, environ):
     print("connect ", sid)
 
 @sio.event
-async def join_room(sid, group, grid):
+async def join_room(sid, group, grid, username):
     if group not in rooms:
         rooms[group] = {}
         rooms[group]["users"] = {}
@@ -22,12 +22,12 @@ async def join_room(sid, group, grid):
         rooms[group]["count"] = 1
     room_len = len(rooms[group]["users"])
     if room_len < 2:
-        rooms[group]["users"][sid] = {"id":sid, "grid": grid, "lose": False, "hits":0}
+        rooms[group]["users"][sid] = {"id":sid, "grid": grid, "lose": False, "hits":0, "username": username}
         sio.enter_room(sid, group)
     elif room_len == 2:
-        rooms[group]["users"][sid] = {"id":sid, "grid": grid, "lose": False, "hits":0}
+        rooms[group]["users"][sid] = {"id":sid, "grid": grid, "lose": False, "hits":0, "username": username}
         sio.enter_room(sid, group)
-        await sio.emit('room_message', {"data": {"action":"room_ready", "body": {"users":[{"id": user["id"]} for user in rooms[group]["users"].values()]}}}, room=group)
+        await sio.emit('room_message', {"data": {"action":"room_ready", "body": {"users":[{"id": user["id"], "username": user["username"]} for user in rooms[group]["users"].values()]}}}, room=group)
         time.sleep(2)
         await sio.emit('room_message', {"data": {"action":"turn", "body": {"id": list(rooms[group]["users"].values())[0]["id"]}}}, room=group)
     elif room_len == 3:

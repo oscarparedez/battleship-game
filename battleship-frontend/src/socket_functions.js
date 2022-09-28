@@ -1,6 +1,6 @@
 let global_socket = null
 
-export const createConnection = (socket, setter) => {
+export const createConnection = (socket, setter, username) => {
     global_socket = socket
     socket.on("connect", () => {
         socket.on("room_message", (data) => {
@@ -14,8 +14,8 @@ export const createConnection = (socket, setter) => {
       });
 }
 
-export const joinRoom = (room_id, grid) => {
-    global_socket.emit("join_room", room_id, grid, (data) => {
+export const joinRoom = (room_id, grid, username) => {
+    global_socket.emit("join_room", room_id, grid, username, (data) => {
         console.log("data", data)
     })
 }
