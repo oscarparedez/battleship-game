@@ -3,3 +3,28 @@
     width: 100vw;
     justify-content: space-around;
 }
+.fadedContent {
+    height: 100vh;
+    width: 100%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    background: #000;
+}
+.InstructionsButton {
+    position: absolute;
+    right: 2vw;
+    top: 2vw;
+    width: 120px;
+    height: 50px;
+    border-radius: 5px;
+    background-color: rgb(184, 234, 0);
+    border: 2px solid black;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.InstructionsButton:hover {
+    background-color: rgb(142, 181, 0); 
+}
