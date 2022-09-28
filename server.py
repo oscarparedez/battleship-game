@@ -81,4 +81,4 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 if __name__ == '__main__':
-    web.run_app(app, port=os.getenv('PORT') or 5005)
+    web.run_app(app, int(port=os.getenv('PORT', 5005)))
