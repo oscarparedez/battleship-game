@@ -7,6 +7,10 @@ sio = socketio.AsyncServer(cors_allowed_origins='*')
 app = web.Application()
 sio.attach(app)
 
+async def index(request):
+    with open('index.html') as f:
+        return web.Response(text=f.read(), content_type='text/html')
+
 rooms = {}
 
 @sio.event
@@ -66,7 +70,7 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
         if rooms[group]["turn"] % len(nextUsers) == 0:
             rooms[group]["turn"] = 0
         response = {"data": {"action":"turn", "body": {"id": nextUsers[rooms[group]["turn"]]}}}
-        time.sleep(0.5)
+        time.sleep(2)
         await sio.emit('room_message', response, room=group)
         
         
@@ -80,5 +84,7 @@ async def chat_message(sid, data):
 def disconnect(sid):
     print('disconnect ', sid)
 
+app.router.add_get('/', index)
+
 if __name__ == '__main__':
-    web.run_app(app, int(port=os.getenv('PORT', 5005)))
+    web.run_app(app, host='0.0.0.0', port=os.environ.get('PORT', '5000'))
