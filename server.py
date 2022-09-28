@@ -70,7 +70,7 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
         if rooms[group]["turn"] % len(nextUsers) == 0:
             rooms[group]["turn"] = 0
         response = {"data": {"action":"turn", "body": {"id": nextUsers[rooms[group]["turn"]]}}}
-        time.sleep(0.5)
+        time.sleep(2)
         await sio.emit('room_message', response, room=group)
         
         
