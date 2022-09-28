@@ -13,11 +13,11 @@ async def index(request):
 
 rooms = {}
 
-# @sio.on('connect')
-# def connect(sid, environ):
-#     print("connect ", sid)
+@sio.event
+def connect(sid, environ):
+    print("connect ", sid)
 
-@sio.on('join_room')
+@sio.event
 async def join_room(sid, group, grid):
     if group not in rooms:
         rooms[group] = {}
