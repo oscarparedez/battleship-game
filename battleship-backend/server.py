@@ -1,9 +1,6 @@
-import os
 from aiohttp import web
-import aiohttp_cors
 import socketio
 import time
-import asyncio
 
 sio = socketio.AsyncServer(cors_allowed_origins='*')
 app = web.Application()
@@ -72,6 +69,7 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
         await sio.emit('room_message', response, room=group)
         
         
+
 @sio.event
 async def chat_message(sid, data):
     print("message ", data)
@@ -82,4 +80,4 @@ def disconnect(sid):
     print('disconnect ', sid)
 
 if __name__ == '__main__':
-    web.run_app(app, port=5001)
+    web.run_app(app)
