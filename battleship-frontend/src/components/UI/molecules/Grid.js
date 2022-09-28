@@ -18,6 +18,23 @@ const Grid = (props) => {
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     ])
+    
+    const { userGridId, attackedInfo } = props
+
+    useEffect(() => {
+        if (attackedInfo) {
+            console.log("test", attackedInfo)
+            if (userGridId === attackedInfo.userid) {
+                const tempGrid = [...grid]
+                if (attackedInfo.hit) {
+                    tempGrid[attackedInfo.position_x][attackedInfo.position_y] = 2
+                } else {
+                    tempGrid[attackedInfo.position_x][attackedInfo.position_y] = 3
+                }
+                setGrid(tempGrid)
+            }
+        }
+    }, [userGridId, attackedInfo])
 
     useEffect(() => {
 
@@ -88,7 +105,8 @@ const Grid = (props) => {
                 <div key={rindex} className="GridRow">
                     {row.map((cell, cindex) => (
                        <GridSquare
-                            key={cindex} isBoat={cell === 0 ? false : true}
+                            key={cindex}
+                            squareType={cell}
                             positionInGrid={[rindex,cindex]}
                             selfDashboard={props.selfDashboard}
                             onCellClick={props.onCellClick}

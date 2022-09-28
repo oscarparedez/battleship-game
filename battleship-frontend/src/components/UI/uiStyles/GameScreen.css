@@ -1,3 +1,6 @@
 .blockedGrid {
     pointer-events: none;
 }
+.OwnGrid {
+    pointer-events: none;
+}

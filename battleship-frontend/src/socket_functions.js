@@ -26,6 +26,6 @@ export const userId = () => {
 
 export const attack = (room_id, position_x, position_y, playerAttacked) => {
     global_socket.emit("attack", room_id, position_x, position_y, playerAttacked, (data) => {
-        console.log("data", data)
+        console.log(" ")
     })
 }

@@ -25,7 +25,8 @@ const GameScreen = (props) => {
   const [ attacksCounter, setAttacksCounter ] = useState(0)
 
   const [ turnFinished, setTurnFinished ] = useState(false)
-  const  [ cellAttacked, setCellAttacked ] = useState([])
+
+  const [ attackedInfo, setAttackedInfo ] = useState()
 
   useEffect(() => {
     if (userPosition === 0 && attacksCounter === 0) {
@@ -53,11 +54,13 @@ const GameScreen = (props) => {
       switch (user.data.action) {
         case "turn":
           setTurn(user.data.body.id)
-          console.log("TURNO", playersInfo, user.data)
+          break;
+        case "attack":
+          console.log('game screen', user.data.body)
+          setAttackedInfo(user.data.body)
           break;
         default:
-            // console.log("HERE1")
-            console.log("ACCION", user.data)
+          console.log("ACCION", user.data)
           break;
       }
     }
@@ -70,11 +73,10 @@ const GameScreen = (props) => {
   const changeTurn = () => {
     setAttacksCounter(0)
     setTurnFinished(true)
-  }
+}
 
   const onCellClick = (data) => {
     setAttacksCounter(attacksCounter + 1)
-    console.log('celllllllllllll', data)
     attack(room, data[1], data[0], playersInfo[userAttacks] && playersInfo[userAttacks].id)
   }
 
@@ -86,14 +88,18 @@ const GameScreen = (props) => {
         gridCounter += 1
         if (element.id === myUser.id) {
           return (
-            <Grid 
-              key={element.id} 
-              gridPosition={gridCounter} 
-              generatedGrid={grid} 
-              title={"Player " + userPosition + element.id + " (You)"} 
-              getCell={() => {}}
-              selfDashboard={true}
-            />
+            <div className="OwnGrid">
+              <Grid 
+                key={element.id} 
+                userGridId={element.id} 
+                gridPosition={gridCounter} 
+                generatedGrid={grid} 
+                title={"Player " + userPosition + element.id + " (You)"} 
+                getCell={() => {}}
+                selfDashboard={true}
+                attackedInfo={attackedInfo}
+              />
+            </div>
           )
         } else {
           let blockedGrid = 0
@@ -122,8 +128,6 @@ const GameScreen = (props) => {
             }
           }
 
-          console.log((playersInfo.indexOf(element) === blockedGrid), turnFinished, (turn !== id), turn, userPosition)
-
           return (
             <div className={
               (playersInfo.indexOf(element) === blockedGrid) ||
@@ -132,11 +136,13 @@ const GameScreen = (props) => {
             }>
             <Grid 
               key={element.id}
+              userGridId={element.id} 
               gridPosition={gridCounter}
               boatsLengths={[]}
               title={"Player " + element.id}
               onCellClick={onCellClick}
-              selfDashboard={false} />
+              selfDashboard={false}
+              attackedInfo={attackedInfo} />
             </div>
           )   
         }
