@@ -19,7 +19,7 @@ const LobbyScreen = (props) => {
   const onGridRendered = (grid) => {
     setGrid(grid)
     const socket = io("https://floating-coast-52950.herokuapp.com/");
-    /* const socket = io("http://localhost:5005"); */
+    // const socket = io("http://localhost:5005");
     createConnection(socket, setUser)
     join_room(room, grid, username)
   }
@@ -46,12 +46,14 @@ const LobbyScreen = (props) => {
   }, [user])
 
   return (
-    <div>
-      <h1>Waiting for other players...</h1>
+    <div className='BackgroundLobby'>
+      <div>
+        <h1>Waiting for other players...</h1>
+      </div>
       <div className="GridsOfPlayers">
-          <h4>This will be your grid</h4>
-          <Grid onGridRendered={onGridRendered} boatsLengths={[4, 3, 3, 2, 2]} getCell={() => {}} selfDashboard={true} isLobbyScreen={true} />
-        </div>
+        <h4>This will be your grid</h4>
+        <Grid onGridRendered={onGridRendered} boatsLengths={[4, 3, 3, 2, 2]} getCell={() => {}} selfDashboard={true} isLobbyScreen={true} />
+      </div>
     </div>
   );
 }

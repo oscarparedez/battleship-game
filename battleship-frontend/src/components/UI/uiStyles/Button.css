@@ -1,4 +1,12 @@
 .Button {
   white-space: normal;
   height: 3vh;
+  background: bisque;
+  font-weight: bold;
+  height: 4vh;
+  border-radius: 6px;
+}
+
+.Button:hover{
+  background-color: rgb(243, 186, 30);
 }

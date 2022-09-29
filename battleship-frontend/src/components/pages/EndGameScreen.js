@@ -11,7 +11,7 @@ const EndGameScreen = (props) => {
     navigate("/")
   }
     return (
-      <div>
+      <div className="BackgroundLobby">
           {gameStatus ? 
           <div>
             <h1>Game Over</h1>

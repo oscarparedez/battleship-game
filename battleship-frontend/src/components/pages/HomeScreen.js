@@ -23,19 +23,21 @@ const HomeScreen = () => {
 
 
   return (
-    <div>
-        <div>
-          <h1>username</h1>
-          <input type="text" value={username} onChange={handleUserChange}></input>
-          <br></br>
-          <h1>room</h1>
-          <input type="text" value={room} onChange={handleRoomChange}></input>
-          <OptionsMenu room={room} username={username}/>
-        </div>
-        <div className='Modal'>
-          <button onClick={toggleModalVisibility} className={"InstructionsButton"}>Instructions</button>
-          <CustomModal toggleModal={toggleModal} setToggleModal={setToggleModal} toggleModalVisibility={toggleModalVisibility} />
-        </div>
+    <div className='BackgroundHome'>
+      <div className='containerHome'>
+          <div className='containerHomeGameInputs'>
+            <h1>Username</h1>
+            <input type="text" value={username} onChange={handleUserChange}></input>
+            <br></br>
+            <h1>Room</h1>
+            <input type="text" value={room} onChange={handleRoomChange}></input>
+            <OptionsMenu room={room} username={username}/>
+          </div>
+          <div className='Modal'>
+            <button onClick={toggleModalVisibility} className={"InstructionsButton"}>Instructions</button>
+            <CustomModal toggleModal={toggleModal} setToggleModal={setToggleModal} toggleModalVisibility={toggleModalVisibility} />
+          </div>
+      </div>
     </div>
   );
 }

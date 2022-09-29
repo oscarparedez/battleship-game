@@ -3,28 +3,32 @@
   height: 40px;
   background-color: rgb(173, 173, 173);
   display: block;
-  border: 2px solid black;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 .GridBoat {
   width: 40px;
   height: 40px;
-  background-color: navy;
+  background-color: rgb(87, 87, 236);
   display: block;
-  border: 2px solid black;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 .DeadBoat {
   width: 40px;
   height: 40px;
-  background-color: red;
+  background-color: #db4d4d;
   display: block;
-  border: 2px solid black;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 .EmptySquare {
   width: 40px;
   height: 40px;
   background-color: rgb(255, 255, 255);
   display: block;
-  border: 2px solid black;
+  border: 1px solid black;
+  border-radius: 6px;
 }
 
 .GridSquare:hover {

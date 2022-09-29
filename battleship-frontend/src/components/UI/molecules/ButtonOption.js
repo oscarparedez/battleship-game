@@ -4,7 +4,7 @@ import Title from "../atoms/Title";
 
 const ButtonOption = (props) => {
   return (
-    <div>
+    <div className='containerOptions'>
         <Title title={props.title} />
         <Link
           to={'/lobby'}

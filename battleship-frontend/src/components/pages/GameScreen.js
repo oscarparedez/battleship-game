@@ -187,7 +187,7 @@ const GameScreen = (props) => {
 
   let gridCounter = 0
   return (
-    <div>
+    <div className="BackgroundLobby">
       <div className="titlesContainer">
         <h2> Your Score {countPoints} </h2>
         <h2> Game Screen </h2>
