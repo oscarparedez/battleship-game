@@ -13,6 +13,8 @@ const PLAYER2 = [0, 1]
 
 const GameScreen = (props) => {
   const location = useLocation()
+  const navigate = useNavigate()
+
   const { user, playersInfo, room } = useUserInfo()
   const {id} = userId()
   const { grid } = location.state
@@ -112,6 +114,16 @@ const GameScreen = (props) => {
           }
 
           setAttackedInfo(user.data.body)
+          break;
+        case "win":
+          const winInfo = user.data.body
+
+          if (winInfo.id === id) {
+            navigate("/end-game", { state: {gameStatus: true}})
+          } else {
+            navigate("/end-game", { state: {gameStatus: false}})
+          }
+
           break;
         case "lose":
           const idOfLose = user.data.body.id
