@@ -41,7 +41,7 @@ async def join_room(sid, group, grid, username):
 @sio.event
 async def exit_room(sid, group):
     rooms[group]["users"].remove(sid)
-    await sio.leave_room(sid, group)
+    sio.leave_room(sid, group)
 
 @sio.event
 async def room_message(sid, data, group):
@@ -72,6 +72,9 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
         response = {"data": {"action":"win", "body": {"id": sid}}}
         time.sleep(2)
         await sio.emit('room_message', response, room=group)
+        for user in rooms[group]["users"].values():
+            sio.leave_room(user["id"], group)
+        del rooms[group]
         return 1
 
     if rooms[group]["count"] == 2 and rooms[group]["change"]:
@@ -87,15 +90,19 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
             time.sleep(2)
             await sio.emit('room_message', response, room=group)
     else: 
-        rooms[group]["count"] = rooms[group]["count"] + 1
-        if rooms[group]["count"] % len(nextUsers) == 0:
-            rooms[group]["count"] = 1
-            rooms[group]["turn"] = rooms[group]["turn"] + 1
-            if rooms[group]["turn"] % len(nextUsers) == 0:
-                rooms[group]["turn"] = 0
-            response = {"data": {"action":"turn", "body": {"id": nextUsers[rooms[group]["turn"]]}}}
-            time.sleep(2)
-            await sio.emit('room_message', response, room=group)
+        if rooms[group]["count"] == 1 and rooms[group]["change"]:
+            rooms[group]["count"] = rooms[group]["count"] + 1
+            return 1
+        else :
+            rooms[group]["count"] = rooms[group]["count"] + 1
+            if rooms[group]["count"] % len(nextUsers) == 0:
+                rooms[group]["count"] = 1
+                rooms[group]["turn"] = rooms[group]["turn"] + 1
+                if rooms[group]["turn"] % len(nextUsers) == 0:
+                    rooms[group]["turn"] = 0
+                response = {"data": {"action":"turn", "body": {"id": nextUsers[rooms[group]["turn"]]}}}
+                time.sleep(2)
+                await sio.emit('room_message', response, room=group)
 
             
 
