@@ -31,33 +31,77 @@ const GameScreen = (props) => {
   const [ attackedInfo, setAttackedInfo ] = useState()
   const [ countPoints, setCountPoints ] = useState(0)
   const [ loseState, setLoseState ] = useState(false)
+  const [ firstLose, setFirstLose ] = useState(5)
 
 
   useEffect(() => {
-    if (userPosition === 0 && attacksCounter === 0) {
-      setUserAttacks(PLAYER0[0])
-    } else if(userPosition === 0 && attacksCounter === 1) {
-      setUserAttacks(PLAYER0[1])
-    } else if(userPosition === 1 && attacksCounter === 0) {
-      setUserAttacks(PLAYER1[0])
-    } else if(userPosition === 1 && attacksCounter === 1) {
-      setUserAttacks(PLAYER1[1])
-    } else if(userPosition === 2 && attacksCounter === 0) {
-      setUserAttacks(PLAYER2[0])
-    } else if(userPosition === 2 && attacksCounter === 1) {
-      setUserAttacks(PLAYER2[1])
+    // console.log("TURN", firstLose, attacksCounter, userPosition)
+
+    if (firstLose === 5) {
+      if (userPosition === 0 && attacksCounter === 0) {
+        setUserAttacks(PLAYER0[0])
+      } else if(userPosition === 0 && attacksCounter === 1) {
+        setUserAttacks(PLAYER0[1])
+      } else if(userPosition === 1 && attacksCounter === 0) {
+        setUserAttacks(PLAYER1[0])
+      } else if(userPosition === 1 && attacksCounter === 1) {
+        setUserAttacks(PLAYER1[1])
+      } else if(userPosition === 2 && attacksCounter === 0) {
+        setUserAttacks(PLAYER2[0])
+      } else if(userPosition === 2 && attacksCounter === 1) {
+        setUserAttacks(PLAYER2[1])
+      }
+  
+      if (attacksCounter === 2) {
+        console.log("CHANGE TURN")
+        changeTurn()
+      }
+    } 
+    // Logic when one player died
+    else if (firstLose === 0) {
+
+      if (userPosition === 1 && attacksCounter === 0) {
+        setUserAttacks(PLAYER1[1])
+      } else if(userPosition === 2 && attacksCounter === 0) {
+        setUserAttacks(PLAYER2[1])
+      }
+
+      if (attacksCounter === 1) {
+        changeTurn()
+      }
+
+    } else if (firstLose === 1) {
+
+      if (userPosition === 0 && attacksCounter === 0) {
+        setUserAttacks(PLAYER0[1])
+      } else if(userPosition === 2 && attacksCounter === 0) {
+        setUserAttacks(PLAYER2[0])
+      }
+
+      if (attacksCounter === 1) {
+        changeTurn()
+      }
+    } else if (firstLose === 2) {
+
+      if (userPosition === 0 && attacksCounter === 0) {
+        setUserAttacks(PLAYER0[0])
+      } else if(userPosition === 1 && attacksCounter === 0) {
+        setUserAttacks(PLAYER2[0])
+      }
+
+      if (attacksCounter === 1) {
+        changeTurn()
+      }
     }
 
-    if (attacksCounter === 2) {
-      console.log("CHANGE TURN")
-      changeTurn()
-    }
-  }, [userPosition, attacksCounter])
+
+  }, [userPosition, attacksCounter, firstLose])
 
   useEffect(() => {
     if (user) {
       switch (user.data.action) {
         case "turn":
+          console.log("TURN", user.data.body)
           setTurn(user.data.body.id)
           break;
         case "attack":
@@ -70,7 +114,15 @@ const GameScreen = (props) => {
           setAttackedInfo(user.data.body)
           break;
         case "lose":
-          if (user.data.body.id === id) {
+          const idOfLose = user.data.body.id
+
+          const userLose = playersInfo.find(userData => userData.id === idOfLose)
+          const userPosition = playersInfo.indexOf(userLose)
+
+          setFirstLose(userPosition)
+          setAttacksCounter(0)
+
+          if (idOfLose === id) {
             setLoseState(true)
           }
           break;
@@ -150,29 +202,33 @@ const GameScreen = (props) => {
             )
           } else {
             let blockedGrid = 0
-            if (userPosition === 0) {
-              if (userAttacks === 1) {
-                blockedGrid = 2
+            if (firstLose === 5) {
+              if (userPosition === 0) {
+                if (userAttacks === 1) {
+                  blockedGrid = 2
+                }
+                else if (userAttacks === 2) {
+                  blockedGrid = 1
+                }
               }
-              else if (userAttacks === 2) {
-                blockedGrid = 1
+              else if (userPosition === 1) {
+                if (userAttacks === 0) {
+                  blockedGrid = 2
+                }
+                else if (userAttacks === 2) {
+                  blockedGrid = 0
+                }
               }
-            }
-            else if (userPosition === 1) {
-              if (userAttacks === 0) {
-                blockedGrid = 2
+              else if (userPosition === 2) {
+                if (userAttacks === 0) {
+                  blockedGrid = 1
+                }
+                else if (userAttacks === 1) {
+                  blockedGrid = 0
+                }
               }
-              else if (userAttacks === 2) {
-                blockedGrid = 0
-              }
-            }
-            else if (userPosition === 2) {
-              if (userAttacks === 0) {
-                blockedGrid = 1
-              }
-              else if (userAttacks === 1) {
-                blockedGrid = 0
-              }
+            } else {
+              blockedGrid = firstLose
             }
 
             return (
