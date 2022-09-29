@@ -67,6 +67,13 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
     nextUsers = [user["id"] for user in rooms[group]["users"].values() if user["lose"] == False]
 
     print("AQUI1", rooms[group]["count"], rooms[group]["change"])
+
+    if (len(nextUsers) == 1):
+        response = {"data": {"action":"win", "body": {"id": sid}}}
+        time.sleep(2)
+        await sio.emit('room_message', response, room=group)
+        return 1
+
     if rooms[group]["count"] == 2 and rooms[group]["change"]:
         nextUsers.remove(sid)
         if len(nextUsers) == 0:
