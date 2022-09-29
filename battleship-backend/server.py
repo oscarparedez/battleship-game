@@ -24,6 +24,7 @@ async def join_room(sid, group, grid, username):
         rooms[group]["users"] = {}
         rooms[group]["turn"] = 0
         rooms[group]["count"] = 1
+        rooms[group]["change"] = False
     room_len = len(rooms[group]["users"])
     if room_len < 2:
         rooms[group]["users"][sid] = {"id":sid, "grid": grid, "lose": False, "hits":0, "username": username}
@@ -58,22 +59,38 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
         rooms[group]["users"][playerAttacked]["grid"][positionX][positionY] = 3
         response = {"data": {"action":"attack", "body": {"userid": playerAttacked, "position_x": positionX, "position_y": positionY, "hit": False}}}
     await sio.emit('room_message', response, room=group)
-    if rooms[group]["users"][playerAttacked]["hits"] == 14:
+    if rooms[group]["users"][playerAttacked]["hits"] == 1:
         rooms[group]["users"][playerAttacked]["lose"] = True
+        rooms[group]["change"] = True
         response = {"data": {"action":"lose", "body": {"id": playerAttacked}}}
         await sio.emit('room_message', response, room=group)
     nextUsers = [user["id"] for user in rooms[group]["users"].values() if user["lose"] == False]
-    rooms[group]["count"] = rooms[group]["count"] + 1
-    if rooms[group]["count"] % len(nextUsers) == 0:
-        rooms[group]["count"] = 1
-        rooms[group]["turn"] = rooms[group]["turn"] + 1
-        if rooms[group]["turn"] % len(nextUsers) == 0:
-            rooms[group]["turn"] = 0
-        response = {"data": {"action":"turn", "body": {"id": nextUsers[rooms[group]["turn"]]}}}
-        time.sleep(2)
-        await sio.emit('room_message', response, room=group)
-        
-        
+
+    print("AQUI1", rooms[group]["count"], rooms[group]["change"])
+    if rooms[group]["count"] == 2 and rooms[group]["change"]:
+        nextUsers.remove(sid)
+        if len(nextUsers) == 0:
+            response = {"data": {"action":"win", "body": {"id": sid}}}
+            time.sleep(2)
+            await sio.emit('room_message', response, room=group)
+        else:
+            nextUser = nextUsers[0]
+            print("AQUI", nextUser)
+            response = {"data": {"action":"turn", "body": {"id": nextUser}}}
+            time.sleep(2)
+            await sio.emit('room_message', response, room=group)
+    else: 
+        rooms[group]["count"] = rooms[group]["count"] + 1
+        if rooms[group]["count"] % len(nextUsers) == 0:
+            rooms[group]["count"] = 1
+            rooms[group]["turn"] = rooms[group]["turn"] + 1
+            if rooms[group]["turn"] % len(nextUsers) == 0:
+                rooms[group]["turn"] = 0
+            response = {"data": {"action":"turn", "body": {"id": nextUsers[rooms[group]["turn"]]}}}
+            time.sleep(2)
+            await sio.emit('room_message', response, room=group)
+
+            
 
 @sio.event
 async def chat_message(sid, data):
