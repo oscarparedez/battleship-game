@@ -58,11 +58,13 @@ async def attack(sid, group, positionX, positionY, playerAttacked):
     else:
         rooms[group]["users"][playerAttacked]["grid"][positionX][positionY] = 3
         response = {"data": {"action":"attack", "body": {"userid": playerAttacked, "position_x": positionX, "position_y": positionY, "hit": False}}}
+    time.sleep(1)
     await sio.emit('room_message', response, room=group)
     if rooms[group]["users"][playerAttacked]["hits"] == 1:
         rooms[group]["users"][playerAttacked]["lose"] = True
         rooms[group]["change"] = True
         response = {"data": {"action":"lose", "body": {"id": playerAttacked}}}
+        time.sleep(1)
         await sio.emit('room_message', response, room=group)
     nextUsers = [user["id"] for user in rooms[group]["users"].values() if user["lose"] == False]
 
