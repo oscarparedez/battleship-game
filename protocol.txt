@@ -18,6 +18,7 @@ SALIR
 roomID
 
 
+
 // Servidor -> Cliente
 
 data = toda la informacion que se retorna del servidor al cliente
@@ -25,7 +26,6 @@ data = toda la informacion que se retorna del servidor al cliente
 action = indica que accion se ejecuta
 
 body = cuerpo del mensaje
-
 
 SALA COMPLETA (LISTA PARA INICIAR)
 {"data": {"action":"room_ready", "body": {users: [{id: "ejemplo1"}, {id: "ejemplo2"}, {id: "ejemplo3"}]}}
