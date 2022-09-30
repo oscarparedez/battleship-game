@@ -1,0 +1,46 @@
+// Cliente -> Servidor (Lista de parametros a enviar al servidor)
+
+SALA COMPLETA (LISTA PARA INICIAR)
+id = roomID
+grid = [[]]
+
+ATAQUE
+roomID
+position_x = x
+position_y = y
+playerAttacked = "ejemplo2"
+
+MENSAJE
+roomID
+message
+
+SALIR
+roomID
+
+
+// Servidor -> Cliente
+
+data = toda la informacion que se retorna del servidor al cliente
+
+action = indica que accion se ejecuta
+
+body = cuerpo del mensaje
+
+
+SALA COMPLETA (LISTA PARA INICIAR)
+{"data": {"action":"room_ready", "body": {users: [{id: "ejemplo1"}, {id: "ejemplo2"}, {id: "ejemplo3"}]}}
+
+ATAQUE
+{"data": {"action":"attack", "body": {position_x: x, position_y: y, hit: true} }}
+
+TURNO ORDEN
+{"data": {"action":"turn", "body": {id: "ejemplo1"}}}
+
+PERDER
+{"data": {"action":"lose", "body": {id: "ejemplo1"}}}
+
+GANAR
+{"data": {"action":"win", "body": {id: "ejemplo1"}}}
+
+MENSAJE DE CHAT
+{"data": {"action":"chat_message", "body": "mensaje"}}
