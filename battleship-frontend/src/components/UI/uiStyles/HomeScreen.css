@@ -14,19 +14,22 @@
     background: #000;
 }
 .InstructionsButton {
+    font-size: 14px;
+    font-weight: bold;
     position: absolute;
+    color: white;
     right: 2vw;
     top: 2vw;
     width: 120px;
-    height: 50px;
-    border-radius: 5px;
-    background-color: bisque;
+    height: 4vh;
+    border-radius: 6px;
+    background: rgb(243, 186, 30);
     border: 2px solid black;
     transition: 0.3s;
     cursor: pointer;
 }
 .InstructionsButton:hover {
-    background-color: rgb(243, 186, 30);
+    background: rgb(213, 156, 0);
 }
 
 .BackgroundHome {
@@ -64,7 +67,7 @@
 .containerHomeGameInputs {
     width: 50vw;
     height: 50vh;
-    border-radius: 2%;
+    border-radius: 6px;
     background-color: bisque;
 }
 .containerOptions{
@@ -85,7 +88,13 @@ a {
     border-radius: 2px;
 }
 input {
-    background-color: black;
-    color: white;
-    border-radius: 5px;
+    background-color: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+    border-radius: 6px;
+    border: 1px solid black;
+    width: 200px;
+    height: 4vh;
+}
+input:focus {
+    border: none;
 }

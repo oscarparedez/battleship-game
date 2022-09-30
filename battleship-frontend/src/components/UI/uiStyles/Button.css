@@ -1,12 +1,30 @@
 .Button {
   white-space: normal;
   height: 3vh;
-  background: bisque;
+  background: rgb(243, 186, 30);
   font-weight: bold;
-  height: 4vh;
+  height: 3vh;
+  width: 250px;
   border-radius: 6px;
+  
 }
 
 .Button:hover{
-  background-color: rgb(243, 186, 30);
+  background: rgb(213, 156, 0);
+}
+
+.HomeButton {
+  white-space: normal;
+  width: 250px;
+  background: rgb(243, 186, 30);
+  font-weight: bold;
+  height: 4vh;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.HomeButton:hover {
+  background: rgb(213, 156, 0);
 }
